@@ -25,6 +25,14 @@ public class Main {
 		
 		table.printList();
 		
+		
+		table.InicLimparArrayTabla();
+		table.iinicioMoverfichas();
+		table.inicAsigPlayerToTabl();
+		
+		table.inicPlayerPrintLn( );
+		table.printList();
+		
 	}
 
 }

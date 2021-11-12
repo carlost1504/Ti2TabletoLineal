@@ -94,6 +94,7 @@ public class Table {
 	}
 	
 	public void playerPos(Player nodePlayer) {
+
 		if(firstPlayer == null) {
 			firstPlayer = nodePlayer;
 			lastPlayer = nodePlayer;
@@ -103,6 +104,10 @@ public class Table {
 			nodePlayer.setPrev(lastPlayer);
 			lastPlayer=nodePlayer;
 		}
+	}
+	public void inicPlayerPrintLn( ) {
+		Player pyTempo=firstPlayer;
+		playerPrintLn( pyTempo );
 	}
 	public void playerPrintLn(Player pyTempo ) {
 		if(pyTempo!=null) {
@@ -183,6 +188,11 @@ public class Table {
 		return resultados;
 	}
 	
+	public void inicAsigPlayerToTabl() {
+		Player nodePlayer=firstPlayer;
+		Node nodeTable=first;
+		asigPlayerToTable( nodePlayer,  nodeTable);
+	}
 	
 	public void asigPlayerToTable(Player nodePlayer, Node nodeTable) {
 		if(nodePlayer!=null) {
@@ -202,6 +212,33 @@ public class Table {
 			}
 		}
 			
+	}
+	
+	public void iinicioMoverfichas() {
+		Player nodePlayer=firstPlayer;
+		moverPlayer( nodePlayer);
+	}
+	
+	public void moverPlayer(Player nodePlayer) {
+		if(nodePlayer!=null) {
+			int valmover=nodePlayer.getPosition()+dado();
+			nodePlayer.setPosition(valmover);
+			nodePlayer=nodePlayer.getNext();
+			moverPlayer( nodePlayer);
+		}
+	}
+	
+	public void InicLimparArrayTabla() {
+		 Node nodeTable=first;
+		 limparArrayTabla( nodeTable);
+	}
+	
+	public void limparArrayTabla(Node nodeTable) {
+		if(nodeTable!=null) {
+			ArrayList<Player> p=new ArrayList<>();
+			nodeTable.setP(p);
+			nodeTable=nodeTable.getNext();
+		}
 	}
 	
 	
