@@ -12,10 +12,9 @@ public class Node {
 		private Node next;
 		private Node prev;
 
-		public Node(int id, ArrayList<Player> p) {
+		public Node(int id) {
 			this.id = id;
-			this.p = p;
-			p=new ArrayList<>();
+			this.p=new ArrayList<>();
 		}
 
 		public int getId() {
@@ -55,7 +54,7 @@ public class Node {
 			if(p!=null) {
 				for(int i=0;i<p.size();i++) {
 					namePLayers=namePLayers+" "+p.get(i).getId();
-					System.out.println(namePLayers);
+					
 				}
 			}else {
 				namePLayers="null";

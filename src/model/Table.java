@@ -19,6 +19,7 @@ public class Table {
 	public Table(int n, int m,String player) {
 		this.n = n;
 		this.m = m;
+		this.player=player;
 	}
 	
 	public void initTable()throws TableSizeValidation {
@@ -87,7 +88,7 @@ public class Table {
 			Player nodePlayer = new Player(playerNames[j],1);
 			playerPos(nodePlayer);
 			createPlayer(playerNames, playersAmount-1, j+1);
-			System.out.print(nodePlayer.toString());
+			//System.out.print(nodePlayer.toString());
 			//System.out.println(playersAmount);
 		}
 	}
@@ -114,7 +115,8 @@ public class Table {
 	
 	public void createTable(int num,int i) {
 		if(num>0) {
-			Node node = new Node(i+1, null);
+			
+			Node node = new Node(i+1);
 			addLast(node);
 			createTable(num-1,i+1);
 		}
@@ -186,24 +188,21 @@ public class Table {
 		if(nodePlayer!=null) {
 			if(nodeTable!=null) {
 				if ( nodePlayer.getPosition()==nodeTable.getId()) {
-					ArrayList<Player> p=new ArrayList<>();
-					p=nodeTable.getP();
-					
- 
+					ArrayList<Player> p=nodeTable.getP();
+					p.add(nodePlayer);
 					nodeTable.setP(p);
 					System.out.println("addPlayer");
+					nodeTable=first;
+					nodePlayer=nodePlayer.getNext();
+					asigPlayerToTable( nodePlayer,  nodeTable);
+				}else {
+					nodeTable=nodeTable.getNext();
+					asigPlayerToTable( nodePlayer,  nodeTable);
 				}
-				nodeTable=nodeTable.getNext();
-				asigPlayerToTable( nodePlayer,  nodeTable);
 			}
-			nodeTable=first;
-			nodePlayer=nodePlayer.getNext();
-			asigPlayerToTable( nodePlayer,  nodeTable);
 		}
+			
 	}
 	
 	
-	
-    
-    
 }

@@ -16,7 +16,7 @@ public class Player {
 	public Player(String id,int position) {
 		super();
 		this.id = id;
-		position=1;
+		this.position=position;
 	}
 
 	public String getId() {
