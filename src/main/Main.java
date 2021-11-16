@@ -33,6 +33,9 @@ public class Main {
 		table.inicPlayerPrintLn( );
 		table.printList();
 		
+		table.inicAddtypeCelda();
+		table.printList();
+		
 	}
 
 }

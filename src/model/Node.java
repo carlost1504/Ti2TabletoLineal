@@ -7,6 +7,7 @@ public class Node {
 	//values
 		private int id;
 		private  ArrayList<Player> p;
+		private Elemnnt tipoCelda;
 		
 		//links
 		private Node next;
@@ -49,6 +50,14 @@ public class Node {
 			this.prev = prev;
 		}
 		
+		public Elemnnt getTipoCelda() {
+			return tipoCelda;
+		}
+
+		public void setTipoCelda(Elemnnt tipoCelda) {
+			this.tipoCelda = tipoCelda;
+		}
+
 		public String PrintlnPlayer() {
 			String namePLayers="";
 			if(p!=null) {
@@ -63,10 +72,20 @@ public class Node {
 			
 			return namePLayers;
 		}
+		
+		public String printlnElemnt() {
+			String mostrar="";
+			if(tipoCelda==null) {
+				mostrar="nulo";
+			}else {
+				mostrar=tipoCelda.getName();
+			}
+			return null;
+		}
 
 		@Override
 		public String toString() {
-			return "[" + id + ", " + PrintlnPlayer() + "] ";
+			return "[" + id + ", " + PrintlnPlayer()+ ", "+ printlnElemnt()+ "] ";
 		}
 		
 	

@@ -117,7 +117,6 @@ public class Table {
 		}
 	}
 	
-	
 	public void createTable(int num,int i) {
 		if(num>0) {
 			
@@ -182,7 +181,6 @@ public class Table {
 		}
 	}
 	
-	
 	public int dado() {
 		int resultados = (int)(Math.random()*6 + 1); 
 		return resultados;
@@ -241,5 +239,44 @@ public class Table {
 		}
 	}
 	
+	public void inicAddtypeCelda() {
+		Node nodeTable=first.getNext();
+		int Snake=0;
+		int Ladders=0;
+		double media=m*n;
+		int cell= (int) (((int) ((media)*0.3)));
+		AddtypeCelda(nodeTable,Snake,Ladders,cell);
+	}
+	
+	public void AddtypeCelda(Node nodeTable, int Snake,	int Ladders,int cell) {
+		if(cell>0) {
+			int typeOfElement= (int) ((Math.random() * (6 - 1)) + 1);
+			 if(typeOfElement==1) {
+				 if(Snake<cell) {
+					 String nameType=("s"+Snake);
+					 Elemnnt  p=new Elemnnt(nameType, 1, "S");
+					 nodeTable.setTipoCelda(p);
+					 System.out.println("add snake");
+					 AddtypeCelda(nodeTable.getNext(), Snake+1, Ladders, cell-1);
+				 }
+			 }
+			 if(typeOfElement==2) {
+				 if(Ladders<cell) {
+					 String nameType=("L"+Ladders);
+					 Elemnnt  p=new Elemnnt(nameType, 1, "L");
+					 nodeTable.setTipoCelda(p);
+					 System.out.println("add ladders");
+					 AddtypeCelda(nodeTable.getNext(), Snake, Ladders+1, cell-1);
+				 }
+			 } 
+			 if(typeOfElement==3||typeOfElement==4||typeOfElement==5||typeOfElement==6) {
+				 Elemnnt  p=new Elemnnt("nulo", 1, "nulo");
+				 nodeTable.setTipoCelda(p);
+				 System.out.println("add null");
+				 AddtypeCelda(nodeTable.getNext(), Snake, Ladders, cell-1);
+			 }
+		}
+		
+	}
 	
 }
