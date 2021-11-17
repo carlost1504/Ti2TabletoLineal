@@ -81,7 +81,7 @@ public class Node {
 				return mostrar;
 			}else {
 				mostrar=tipoCelda.getName();
-				//System.out.println(mostrar);
+				
 				return mostrar;
 			}
 			 

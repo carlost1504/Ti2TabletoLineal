@@ -13,6 +13,9 @@ public class Table {
 	private Player firstPlayer;
 	private Player lastPlayer;
 	
+	
+	//Attributes Table
+	private int snake,ladders;
 	private int n, m;
 	private String player;
 	
