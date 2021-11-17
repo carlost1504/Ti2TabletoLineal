@@ -244,38 +244,53 @@ public class Table {
 		int Snake=0;
 		int Ladders=0;
 		double media=m*n;
-		int cell= (int) (((int) ((media)*0.3)));
-		AddtypeCelda(nodeTable,Snake,Ladders,cell);
+		int cell= (int) (((int) ((media)*0.4)));
+		System.out.println(cell);
+		AddtypeCelda(nodeTable,Snake,Ladders,cell,media);
 	}
 	
-	public void AddtypeCelda(Node nodeTable, int Snake,	int Ladders,int cell) {
-		if(cell>0) {
-			int typeOfElement= (int) ((Math.random() * (6 - 1)) + 1);
-			 if(typeOfElement==1) {
-				 if(Snake<cell) {
-					 String nameType=("s"+Snake);
-					 Elemnnt  p=new Elemnnt(nameType, 1, "S");
+	public void AddtypeCelda(Node nodeTable, int Snake,	int Ladders,int cell,double media) {
+		if(media>0) {
+			if(cell>0) {
+				int typeOfElement= (int) ((Math.random() * (4 - 1)) + 1);
+				 if(typeOfElement==1) {
+					 if(Snake<cell) {
+						 String nameType=("s"+Snake);
+						 Elemnnt  p=new Elemnnt(nameType, 1, "S");
+						 nodeTable.setTipoCelda(p);
+						 System.out.println(p.toString());
+						 nodeTable=nodeTable.getNext();
+						 System.out.println(media);
+						 AddtypeCelda(nodeTable, Snake+1, Ladders, cell-1,media-1);
+					 }
+				 }else if(typeOfElement==2) {
+					 if(Ladders<cell) {
+						 String nameType=("L"+Ladders);
+						 Elemnnt  p=new Elemnnt(nameType, 1, "L");
+						 nodeTable.setTipoCelda(p);
+						 System.out.println(p.toString());
+						 nodeTable=nodeTable.getNext();
+						 System.out.println(media);
+						 AddtypeCelda(nodeTable, Snake, Ladders+1, cell-1,media-1);
+					 }
+				 } else {
+					 Elemnnt  p=new Elemnnt("nulo", 0, "nulo");
 					 nodeTable.setTipoCelda(p);
-					 System.out.println("add snake");
-					 AddtypeCelda(nodeTable.getNext(), Snake+1, Ladders, cell-1);
+					 System.out.println("add null");
+					 nodeTable=nodeTable.getNext();
+					 System.out.println(media);
+					 AddtypeCelda(nodeTable, Snake, Ladders, cell-1,media-1);
 				 }
-			 }
-			 if(typeOfElement==2) {
-				 if(Ladders<cell) {
-					 String nameType=("L"+Ladders);
-					 Elemnnt  p=new Elemnnt(nameType, 1, "L");
-					 nodeTable.setTipoCelda(p);
-					 System.out.println("add ladders");
-					 AddtypeCelda(nodeTable.getNext(), Snake, Ladders+1, cell-1);
-				 }
-			 } 
-			 if(typeOfElement==3||typeOfElement==4||typeOfElement==5||typeOfElement==6) {
-				 Elemnnt  p=new Elemnnt("nulo", 1, "nulo");
-				 nodeTable.setTipoCelda(p);
-				 System.out.println("add null");
-				 AddtypeCelda(nodeTable.getNext(), Snake, Ladders, cell-1);
-			 }
+			} else {
+				Elemnnt  p=new Elemnnt("nulo", 0, "nulo");
+				nodeTable.setTipoCelda(p);
+				System.out.println("add null");
+				nodeTable=nodeTable.getNext();
+				System.out.println(media);
+				AddtypeCelda(nodeTable, Snake, Ladders, cell,media-1);
+			}
 		}
+		
 		
 	}
 	

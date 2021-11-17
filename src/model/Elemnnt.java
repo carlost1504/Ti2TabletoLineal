@@ -16,6 +16,9 @@ public class Elemnnt {
 		this.tipo = tipo;
 		this.clase = clase;
 	}
+	public Elemnnt() {
+		
+	}
 	public String getName() {
 		return name;
 	}
@@ -33,6 +36,10 @@ public class Elemnnt {
 	}
 	public void setClase(String clase) {
 		this.clase = clase;
+	}
+	@Override
+	public String toString() {
+		return "Elemnnt [name=" + name + "]";
 	}
 	
 	

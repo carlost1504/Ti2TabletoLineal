@@ -16,6 +16,7 @@ public class Node {
 		public Node(int id) {
 			this.id = id;
 			this.p=new ArrayList<>();
+			this.tipoCelda= new Elemnnt();
 		}
 
 		public int getId() {
@@ -75,12 +76,15 @@ public class Node {
 		
 		public String printlnElemnt() {
 			String mostrar="";
-			if(tipoCelda==null) {
-				mostrar="nulo";
+			if(tipoCelda.getName()==null||tipoCelda.getName().equals("nulo")) {
+				mostrar=mostrar+"nulo";
+				return mostrar;
 			}else {
 				mostrar=tipoCelda.getName();
+				//System.out.println(mostrar);
+				return mostrar;
 			}
-			return null;
+			 
 		}
 
 		@Override
