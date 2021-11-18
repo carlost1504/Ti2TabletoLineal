@@ -1,5 +1,10 @@
 package model;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -13,11 +18,12 @@ public class Table {
 	private Player firstPlayer;
 	private Player lastPlayer;
 	
-	
-	//Attributes Table
-	private int snake,ladders;
 	private int n, m;
 	private String player;
+	
+	public Table() {
+		
+	}
 	
 	public Table(int n, int m,String player) {
 		this.n = n;
@@ -51,11 +57,11 @@ public class Table {
 		playerPrintLn( pyTempo );
 		Player nodePlayer=firstPlayer;
 		Node nodeTable=first;
-		asigNum(nodePlayer);
+		asignNum(nodePlayer);
 		asigPlayerToTable( nodePlayer,  nodeTable);
 	}
 	
-	/*validationPlayer
+	/* ValidationPlayer
 	 * el metodo mira si al entrar la cadena de caracteres esta presente elguno espacio;
 	 * si es asi mandara una excetion para poderlo corregir;
 	 * String[] campoPlayer=Arraylist de jugadores;
@@ -71,7 +77,7 @@ public class Table {
 		}
 	}
 	
-	public void asigNum(Player nodePlayer) {
+	public void asignNum(Player nodePlayer) {
 		if(nodePlayer!=null) {
 			nodePlayer.setPosition(1);
 			nodePlayer=nodePlayer.getNext();
@@ -189,7 +195,7 @@ public class Table {
 		return resultados;
 	}
 	
-	public void inicAsigPlayerToTabl() {
+	public void inicAsigPlayerToTable() {
 		Player nodePlayer=firstPlayer;
 		Node nodeTable=first;
 		asigPlayerToTable( nodePlayer,  nodeTable);
@@ -215,7 +221,7 @@ public class Table {
 			
 	}
 	
-	public void iinicioMoverfichas() {
+	public void inicMovePlayers() {
 		Player nodePlayer=firstPlayer;
 		moverPlayer( nodePlayer);
 	}
@@ -229,12 +235,12 @@ public class Table {
 		}
 	}
 	
-	public void InicLimparArrayTabla() {
+	public void inicCleanTableArray() {
 		 Node nodeTable=first;
-		 limparArrayTabla( nodeTable);
+		 cleanTableArray( nodeTable);
 	}
 	
-	public void limparArrayTabla(Node nodeTable) {
+	public void cleanTableArray(Node nodeTable) {
 		if(nodeTable!=null) {
 			ArrayList<Player> p=new ArrayList<>();
 			nodeTable.setP(p);
@@ -247,9 +253,40 @@ public class Table {
 		int Snake=0;
 		int Ladders=0;
 		double media=m*n;
-		int cell= (int) (((int) ((media)*0.4)));
-		System.out.println(cell);
-		AddtypeCelda(nodeTable,Snake,Ladders,cell,media);
+		int cell= (int) (((int) ((media)*0.3)));
+		addTypeCelda(nodeTable,Snake,Ladders,cell,media);
+	}
+	
+	public void addTypeCelda(Node nodeTable, int Snake,	int Ladders,int cell, double media) {
+		if(cell>0) {
+			int typeOfElement= (int) ((Math.random() * (6 - 1)) + 1);
+			 if(typeOfElement==1) {
+				 if(Snake<cell) {
+					 String nameType=("s"+Snake);
+					 Elemnnt  p=new Elemnnt(nameType, 1, "S");
+					 nodeTable.setTipoCelda(p);
+					 System.out.println("add snake");
+					 addTypeCelda(nodeTable.getNext(), Snake+1, Ladders, cell-1, media);
+				 }
+			 }
+			 if(typeOfElement==2) {
+				 if(Ladders<cell) {
+					 String nameType=("L"+Ladders);
+					 Elemnnt  p=new Elemnnt(nameType, 1, "L");
+					 nodeTable.setTipoCelda(p);
+					 System.out.println("add ladders");
+					 addTypeCelda(nodeTable.getNext(), Snake, Ladders+1, cell-1, media);
+				 }
+			 } 
+			 if(typeOfElement==3||typeOfElement==4||typeOfElement==5||typeOfElement==6) {
+				 Elemnnt  p=new Elemnnt("nulo", 1, "nulo");
+				 nodeTable.setTipoCelda(p);
+				 System.out.println("add null");
+				 addTypeCelda(nodeTable.getNext(), Snake, Ladders, cell-1, media);
+			 }
+
+			 
+		}
 	}
 	
 	public void AddtypeCelda(Node nodeTable, int Snake,	int Ladders,int cell,double media) {
@@ -296,5 +333,33 @@ public class Table {
 		
 		
 	}
+	
+	public void saveWinners(Player winner, String nickName) throws IOException {
+    	String result = "";
+    	if (new File("./data/winners.csv").exists()) {
+    		BufferedReader br = new BufferedReader(new FileReader("./data/winners.csv"));    		
+    		result = readWinners(br.readLine(), br);
+    	}
+        PrintWriter pw = new PrintWriter("./data/winners.csv");
+        if (!result.equals("")) {
+        	pw.println(result);
+        }
+        winner.setId(nickName);
+        pw.println();
+        pw.close();
+    }
+	
+	public String readWinners(String line, BufferedReader br) throws IOException {
+    	if (line == null) {
+    		return "";
+    	} else {
+    		String lineBefore = br.readLine();
+    		if (lineBefore == null || lineBefore.equals("")) {
+    			return line + readWinners(lineBefore, br);
+    		} else {    			
+    			return line + "\n" + readWinners(lineBefore, br);
+    		}
+    	}
+    }
 	
 }
