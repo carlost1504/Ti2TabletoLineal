@@ -1,12 +1,10 @@
 package model;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import exception.TableSizeValidation;
 import exception.ValidationFormtPlayer;
@@ -18,14 +16,14 @@ public class Table {
 	private Player firstPlayer;
 	private Player lastPlayer;
 	
+	private ArrayList<Player> ganador=new ArrayList<>();
+	
+	//Attributes Table
+	private int snake,ladders;
 	private int n, m;
 	private String player;
 	
-	public Table() {
-		
-	}
-	
-	public Table(int n, int m,String player) {
+	public Table(int snake,int ladders, int n, int m,String player) {
 		this.n = n;
 		this.m = m;
 		this.player=player;
@@ -57,11 +55,11 @@ public class Table {
 		playerPrintLn( pyTempo );
 		Player nodePlayer=firstPlayer;
 		Node nodeTable=first;
-		asignNum(nodePlayer);
+		asigNum(nodePlayer);
 		asigPlayerToTable( nodePlayer,  nodeTable);
 	}
 	
-	/* ValidationPlayer
+	/*validationPlayer
 	 * el metodo mira si al entrar la cadena de caracteres esta presente elguno espacio;
 	 * si es asi mandara una excetion para poderlo corregir;
 	 * String[] campoPlayer=Arraylist de jugadores;
@@ -77,7 +75,12 @@ public class Table {
 		}
 	}
 	
-	public void asignNum(Player nodePlayer) {
+	/* Asign a number to the player
+	 * <b> Pre: 
+	 *  @Param nodePlayer
+	 *  </b>
+	 */
+	public void asigNum(Player nodePlayer) {
 		if(nodePlayer!=null) {
 			nodePlayer.setPosition(1);
 			nodePlayer=nodePlayer.getNext();
@@ -102,6 +105,11 @@ public class Table {
 		}
 	}
 	
+	/* LnkList the player position
+	 * <b> Pre: 
+	 *  @Param nodePlayer
+	 *  </b>
+	 */
 	public void playerPos(Player nodePlayer) {
 
 		if(firstPlayer == null) {
@@ -118,6 +126,12 @@ public class Table {
 		Player pyTempo=firstPlayer;
 		playerPrintLn( pyTempo );
 	}
+	
+	/* Show the player toString and all the information of the player
+	 * <b> Pre: 
+	 *  @Param pyTempo, temporal player
+	 *  </b>
+	 */
 	public void playerPrintLn(Player pyTempo ) {
 		if(pyTempo!=null) {
 			System.out.println(pyTempo.toString());
@@ -126,6 +140,12 @@ public class Table {
 		}
 	}
 	
+	/* Create the game table recursively
+	 * <b> Pre: 
+	 *  @Param num
+	 *  @Param i counter
+	 *  </b>
+	 */
 	public void createTable(int num,int i) {
 		if(num>0) {
 			
@@ -148,6 +168,10 @@ public class Table {
 		}
 	}
 	
+	/* Show the table
+	 * <b> 
+	 *  </b>
+	 */
 	public void printList() {
 		Node node = last;
 		int i=0;
@@ -170,37 +194,28 @@ public class Table {
 		}
 	}
 	
-	public String printlnList(int i,String row) {
-		if(i<n) {
-			if(i % 2==0) {
-				for(int j=0; j<m; j++) {
-					row=last.toString()+row;
-					last = last.getPrev();
-				}
-				
-			}else  {
-				for(int j=0; j<m; j++) {
-					row=row+last.toString();
-					last = last.getPrev();
-				}
-			}
-			return printlnList( i++, row);
-		}else {
-			return row;
-		}
-	}
-	
+	/* Dado: throws a random number till 6 
+	 * <b> post:
+	 * 		int resultados, entero random
+	 *  </b> 
+	 */
 	public int dado() {
 		int resultados = (int)(Math.random()*6 + 1); 
 		return resultados;
 	}
 	
-	public void inicAsigPlayerToTable() {
+	public void inicAsigPlayerToTabl() {
 		Player nodePlayer=firstPlayer;
 		Node nodeTable=first;
 		asigPlayerToTable( nodePlayer,  nodeTable);
 	}
 	
+	/* Asign a player o the game table
+	 * <b> Pre: 
+	 *  @Param nodePlayer
+	 *  @Param nodeTable
+	 *  </b>
+	 */
 	public void asigPlayerToTable(Player nodePlayer, Node nodeTable) {
 		if(nodePlayer!=null) {
 			if(nodeTable!=null) {
@@ -208,7 +223,7 @@ public class Table {
 					ArrayList<Player> p=nodeTable.getP();
 					p.add(nodePlayer);
 					nodeTable.setP(p);
-					System.out.println("addPlayer");
+					//System.out.println("addPlayer");
 					nodeTable=first;
 					nodePlayer=nodePlayer.getNext();
 					asigPlayerToTable( nodePlayer,  nodeTable);
@@ -221,11 +236,16 @@ public class Table {
 			
 	}
 	
-	public void inicMovePlayers() {
+	public void iinicioMoverfichas() {
 		Player nodePlayer=firstPlayer;
 		moverPlayer( nodePlayer);
 	}
 	
+	/* Make move the player position depending on the dado results 
+	 * <b> Pre: 
+	 *  @Param nodePlayer
+	 *  </b>
+	 */
 	public void moverPlayer(Player nodePlayer) {
 		if(nodePlayer!=null) {
 			int valmover=nodePlayer.getPosition()+dado();
@@ -235,12 +255,17 @@ public class Table {
 		}
 	}
 	
-	public void inicCleanTableArray() {
+	public void InicLimparArrayTabla() {
 		 Node nodeTable=first;
-		 cleanTableArray( nodeTable);
+		 limparArrayTabla( nodeTable);
 	}
 	
-	public void cleanTableArray(Node nodeTable) {
+	/* Clean the arrayList of players on the table
+	 * <b> Pre: 
+	 *  @Param nodeTable
+	 *  </b>
+	 */
+	public void limparArrayTabla(Node nodeTable) {
 		if(nodeTable!=null) {
 			ArrayList<Player> p=new ArrayList<>();
 			nodeTable.setP(p);
@@ -253,42 +278,20 @@ public class Table {
 		int Snake=0;
 		int Ladders=0;
 		double media=m*n;
-		int cell= (int) (((int) ((media)*0.3)));
-		addTypeCelda(nodeTable,Snake,Ladders,cell,media);
+		int cell= (int) (((int) ((media)*0.4)));
+		System.out.println(cell);
+		AddtypeCelda(nodeTable,Snake,Ladders,cell,media);
 	}
 	
-	public void addTypeCelda(Node nodeTable, int Snake,	int Ladders,int cell, double media) {
-		if(cell>0) {
-			int typeOfElement= (int) ((Math.random() * (6 - 1)) + 1);
-			 if(typeOfElement==1) {
-				 if(Snake<cell) {
-					 String nameType=("s"+Snake);
-					 Elemnnt  p=new Elemnnt(nameType, 1, "S");
-					 nodeTable.setTipoCelda(p);
-					 System.out.println("add snake");
-					 addTypeCelda(nodeTable.getNext(), Snake+1, Ladders, cell-1, media);
-				 }
-			 }
-			 if(typeOfElement==2) {
-				 if(Ladders<cell) {
-					 String nameType=("L"+Ladders);
-					 Elemnnt  p=new Elemnnt(nameType, 1, "L");
-					 nodeTable.setTipoCelda(p);
-					 System.out.println("add ladders");
-					 addTypeCelda(nodeTable.getNext(), Snake, Ladders+1, cell-1, media);
-				 }
-			 } 
-			 if(typeOfElement==3||typeOfElement==4||typeOfElement==5||typeOfElement==6) {
-				 Elemnnt  p=new Elemnnt("nulo", 1, "nulo");
-				 nodeTable.setTipoCelda(p);
-				 System.out.println("add null");
-				 addTypeCelda(nodeTable.getNext(), Snake, Ladders, cell-1, media);
-			 }
-
-			 
-		}
-	}
-	
+	/* Add the type of the cell, if is an snake or a ladder
+	 * <b> Pre: 
+	 *  @Param nodeTable
+	 *  @Param sanke
+	 *  @Param ladders
+	 *  @Param cell
+	 *  @Param media
+	 *  </b>
+	 */
 	public void AddtypeCelda(Node nodeTable, int Snake,	int Ladders,int cell,double media) {
 		if(media>0) {
 			if(cell>0) {
@@ -298,8 +301,11 @@ public class Table {
 						 String nameType=("s"+Snake);
 						 Elemnnt  p=new Elemnnt(nameType, 1, "S");
 						 nodeTable.setTipoCelda(p);
-						 System.out.println(p.toString());
+						 //System.out.println(p.toString());
+						 int i=1;
+						 AddFinalElement( nodeTable, i, snake);
 						 nodeTable=nodeTable.getNext();
+						 
 						 System.out.println(media);
 						 AddtypeCelda(nodeTable, Snake+1, Ladders, cell-1,media-1);
 					 }
@@ -308,58 +314,82 @@ public class Table {
 						 String nameType=("L"+Ladders);
 						 Elemnnt  p=new Elemnnt(nameType, 1, "L");
 						 nodeTable.setTipoCelda(p);
-						 System.out.println(p.toString());
+						 //System.out.println(p.toString());
+						 int i=1;
+						 AddFinalElement( nodeTable, i, ladders);
 						 nodeTable=nodeTable.getNext();
+						 
 						 System.out.println(media);
 						 AddtypeCelda(nodeTable, Snake, Ladders+1, cell-1,media-1);
 					 }
 				 } else {
 					 Elemnnt  p=new Elemnnt("nulo", 0, "nulo");
 					 nodeTable.setTipoCelda(p);
-					 System.out.println("add null");
+					 //System.out.println("add null");
 					 nodeTable=nodeTable.getNext();
 					 System.out.println(media);
-					 AddtypeCelda(nodeTable, Snake, Ladders, cell-1,media-1);
+					 AddtypeCelda(nodeTable, Snake, Ladders, cell,media-1);
 				 }
-			} else {
+			} else if(nodeTable!=null){
 				Elemnnt  p=new Elemnnt("nulo", 0, "nulo");
 				nodeTable.setTipoCelda(p);
-				System.out.println("add null");
+				//System.out.println("add null");
 				nodeTable=nodeTable.getNext();
-				System.out.println(media);
+				//System.out.println(media);
 				AddtypeCelda(nodeTable, Snake, Ladders, cell,media-1);
+			}	
+		}
+	}
+	
+	/* Add the final element to the table
+	 * <b> Pre: 
+	 *  @Param playerNames
+	 *  @Param playersAmount
+	 *  @Param j counter  
+	 *  </b>
+	 */
+	public void AddFinalElement(Node nodeTable,int i,int position) {
+		if(nodeTable!=null) {
+			if(i>0) {
+				nodeTable=nodeTable.getNext();
+				AddFinalElement( nodeTable, i+1,position);
+			}else if(i==5) {
+				String nameType=("s"+position);
+				 Elemnnt  p=new Elemnnt(nameType, 2, "S");
+				 nodeTable.setTipoCelda(p);
 			}
 		}
 		
-		
 	}
 	
-	public void saveWinners(Player winner, String nickName) throws IOException {
-    	String result = "";
-    	if (new File("./data/winners.csv").exists()) {
-    		BufferedReader br = new BufferedReader(new FileReader("./data/winners.csv"));    		
-    		result = readWinners(br.readLine(), br);
-    	}
-        PrintWriter pw = new PrintWriter("./data/winners.csv");
-        if (!result.equals("")) {
-        	pw.println(result);
-        }
-        winner.setId(nickName);
-        pw.println();
-        pw.close();
-    }
+	/* Add the winner of the game
+	 * <b> 
+	 *  </b>
+	 */
+	public void ganador() {
+		if(last.getNext()==null) {
+			ArrayList<Player>p= last.getP();
+			if(p.get(1)!=null) {
+				ganador.add(p.get(1));
+			}
+		}
+	}
 	
-	public String readWinners(String line, BufferedReader br) throws IOException {
-    	if (line == null) {
-    		return "";
-    	} else {
-    		String lineBefore = br.readLine();
-    		if (lineBefore == null || lineBefore.equals("")) {
-    			return line + readWinners(lineBefore, br);
-    		} else {    			
-    			return line + "\n" + readWinners(lineBefore, br);
-    		}
-    	}
-    }
+	/* Save the winner name to a new File called "jbc.temp"
+	 * <b> Pre: 
+	 *  </b>
+	 */
+	public void salveJavaByteCode(){
+		try {
+			File ref = new File("jbc.temp");
+			 FileOutputStream fos = new FileOutputStream(ref);
+			 ObjectOutputStream oos = new ObjectOutputStream(fos);
+			 oos.writeObject(ganador);
+			 oos.close();	
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
+		 
+	}
 	
 }

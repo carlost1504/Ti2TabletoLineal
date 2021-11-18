@@ -10,8 +10,9 @@ public class Player {
 	private Player prev;
 
 	
-	/**
+	/**	Contructor of Player
 	 * @param id
+	 * @param position
 	 */
 	public Player(String id,int position) {
 		super();
