@@ -1,5 +1,9 @@
 package model;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -13,13 +17,14 @@ public class Table {
 	private Player firstPlayer;
 	private Player lastPlayer;
 	
+	private ArrayList<Player> ganador=new ArrayList<>();
 	
 	//Attributes Table
 	private int snake,ladders;
 	private int n, m;
 	private String player;
 	
-	public Table(int n, int m,String player) {
+	public Table(int snake,int ladders, int n, int m,String player) {
 		this.n = n;
 		this.m = m;
 		this.player=player;
@@ -164,25 +169,6 @@ public class Table {
 		}
 	}
 	
-	public String printlnList(int i,String row) {
-		if(i<n) {
-			if(i % 2==0) {
-				for(int j=0; j<m; j++) {
-					row=last.toString()+row;
-					last = last.getPrev();
-				}
-				
-			}else  {
-				for(int j=0; j<m; j++) {
-					row=row+last.toString();
-					last = last.getPrev();
-				}
-			}
-			return printlnList( i++, row);
-		}else {
-			return row;
-		}
-	}
 	
 	public int dado() {
 		int resultados = (int)(Math.random()*6 + 1); 
@@ -202,7 +188,7 @@ public class Table {
 					ArrayList<Player> p=nodeTable.getP();
 					p.add(nodePlayer);
 					nodeTable.setP(p);
-					System.out.println("addPlayer");
+					//System.out.println("addPlayer");
 					nodeTable=first;
 					nodePlayer=nodePlayer.getNext();
 					asigPlayerToTable( nodePlayer,  nodeTable);
@@ -261,8 +247,11 @@ public class Table {
 						 String nameType=("s"+Snake);
 						 Elemnnt  p=new Elemnnt(nameType, 1, "S");
 						 nodeTable.setTipoCelda(p);
-						 System.out.println(p.toString());
+						 //System.out.println(p.toString());
+						 int i=1;
+						 AddFinalElement( nodeTable, i, snake);
 						 nodeTable=nodeTable.getNext();
+						 
 						 System.out.println(media);
 						 AddtypeCelda(nodeTable, Snake+1, Ladders, cell-1,media-1);
 					 }
@@ -271,30 +260,68 @@ public class Table {
 						 String nameType=("L"+Ladders);
 						 Elemnnt  p=new Elemnnt(nameType, 1, "L");
 						 nodeTable.setTipoCelda(p);
-						 System.out.println(p.toString());
+						 //System.out.println(p.toString());
+						 int i=1;
+						 AddFinalElement( nodeTable, i, ladders);
 						 nodeTable=nodeTable.getNext();
+						 
 						 System.out.println(media);
 						 AddtypeCelda(nodeTable, Snake, Ladders+1, cell-1,media-1);
 					 }
 				 } else {
 					 Elemnnt  p=new Elemnnt("nulo", 0, "nulo");
 					 nodeTable.setTipoCelda(p);
-					 System.out.println("add null");
+					 //System.out.println("add null");
 					 nodeTable=nodeTable.getNext();
 					 System.out.println(media);
-					 AddtypeCelda(nodeTable, Snake, Ladders, cell-1,media-1);
+					 AddtypeCelda(nodeTable, Snake, Ladders, cell,media-1);
 				 }
-			} else {
+			} else if(nodeTable!=null){
 				Elemnnt  p=new Elemnnt("nulo", 0, "nulo");
 				nodeTable.setTipoCelda(p);
-				System.out.println("add null");
+				//System.out.println("add null");
 				nodeTable=nodeTable.getNext();
-				System.out.println(media);
+				//System.out.println(media);
 				AddtypeCelda(nodeTable, Snake, Ladders, cell,media-1);
+			}	
+		}
+	}
+	
+	public void AddFinalElement(Node nodeTable,int i,int position) {
+		if(nodeTable!=null) {
+			if(i>0) {
+				nodeTable=nodeTable.getNext();
+				AddFinalElement( nodeTable, i+1,position);
+			}else if(i==5) {
+				String nameType=("s"+position);
+				 Elemnnt  p=new Elemnnt(nameType, 2, "S");
+				 nodeTable.setTipoCelda(p);
 			}
 		}
 		
-		
+	}
+	
+	public void ganador() {
+		if(last.getNext()==null) {
+			ArrayList<Player>p= last.getP();
+			if(p.get(1)!=null) {
+				ganador.add(p.get(1));
+			}
+		}
+	}
+	
+	
+	public void salveJavaByteCode(){
+		try {
+			File ref = new File("jbc.temp");
+			 FileOutputStream fos = new FileOutputStream(ref);
+			 ObjectOutputStream oos = new ObjectOutputStream(fos);
+			 oos.writeObject(ganador);
+			 oos.close();	
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
+		 
 	}
 	
 }

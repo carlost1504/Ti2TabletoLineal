@@ -64,13 +64,10 @@ public class Node {
 			if(p!=null) {
 				for(int i=0;i<p.size();i++) {
 					namePLayers=namePLayers+" "+p.get(i).getId();
-					
 				}
 			}else {
 				namePLayers="null";
 			}
-			
-			
 			return namePLayers;
 		}
 		
@@ -81,10 +78,8 @@ public class Node {
 				return mostrar;
 			}else {
 				mostrar=tipoCelda.getName();
-				
 				return mostrar;
 			}
-			 
 		}
 
 		@Override
